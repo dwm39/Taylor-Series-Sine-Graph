@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FinalGraphController">
+   <bottom>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <VBox>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <children>
+                  <Label text="Taylor Series Summury:" />
+                  <TextArea fx:id="tSeriesSummury" prefHeight="125.0" prefWidth="50000.0">
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin></TextArea>
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+   <left>
+      <VBox spacing="10.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="-40.0" top="25.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="50.0" />
+         </padding>
+         <children>
+            <HBox alignment="TOP_RIGHT" spacing="10.0">
+               <children>
+                  <Label text="From:" />
+                  <TextField fx:id="fromBox" prefWidth="80.0" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" spacing="10.0">
+               <children>
+                  <Label text="To:" />
+                  <TextField fx:id="toBox" prefWidth="80.0" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" spacing="10.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <Label text="# of terms:" />
+                  <TextField fx:id="numberBox" prefHeight="26.0" prefWidth="80.0" />
+               </children>
+            </HBox>
+            <VBox spacing="25.0">
+               <children>
+                  <CheckBox fx:id="appendPlots" mnemonicParsing="false" text="Append Plots" />
+                  <Button fx:id="submitButton" mnemonicParsing="false" onAction="#runSimulation" text="Run Simulation" />
+               </children>
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <Label text="Sine Taylor Series" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="21.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <LineChart fx:id="lineChart" BorderPane.alignment="CENTER">
+        <xAxis>
+            <NumberAxis side="LEFT" />
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </center>
+</BorderPane>
