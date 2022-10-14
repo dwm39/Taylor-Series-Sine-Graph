@@ -9,7 +9,9 @@ public class FinalGraph extends Application {
 
     
     static public StringBuilder myData = new StringBuilder();
-
+    // Starting up program and creating new scene
+    // Calls upon the Controller for most of the underlying program
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FinalGraph.fxml"));

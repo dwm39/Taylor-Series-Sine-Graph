@@ -32,14 +32,13 @@ public class FinalGraphController implements Initializable {
 
     static public StringBuilder myData = new StringBuilder();
 
-    static double hi;
-    static double myN;
     static double finalAnswer;
 
+    // The underlying code that runs when the "Run Simulation" button is pressed
     @FXML
     void runSimulation(ActionEvent event) {
-        double startPos = Double.parseDouble(fromBox.getText());
-        double endPos = Double.parseDouble(toBox.getText());
+        double startPos = Double.parseDouble(fromBox.getText()); // Start input from user
+        double endPos = Double.parseDouble(toBox.getText()); // End input from user
         if (startPos >= endPos) {
             tSeriesSummury.setText("Start Position cannot be greater or equal to end position");
             throw new InputException("Start Position cannot be greater or equal to end position");
@@ -48,32 +47,30 @@ public class FinalGraphController implements Initializable {
         else {
 
             double numOfPoints = 100;
-            myData = new StringBuilder();
+            myData = new StringBuilder(); // String builder for the approximation information displayed at the Bottom of the API
             int numOfTrys = Integer.parseInt(numberBox.getText()) - 1;
-            myData = new StringBuilder();
-
-            XYChart.Series dataSeries = new XYChart.Series();
+            XYChart.Series dataSeries = new XYChart.Series(); // Approximation of Sine
             dataSeries.setName("Sine Approximation");
 
-            XYChart.Series dataSeries2 = new XYChart.Series();
+            XYChart.Series dataSeries2 = new XYChart.Series(); // Actual Sine Graph
             dataSeries2.setName("True Sine");
 
-            for (double currentAngle = startPos; currentAngle <= endPos; currentAngle += (endPos - startPos)
-                    / numOfPoints) {
-                double newVar = Math.toRadians(currentAngle);
+            // For loop that iterates over the position and places each approximation and adds it to each point in the graph
+            for (double currentAngle = startPos; currentAngle <= endPos; currentAngle += (endPos - startPos) / numOfPoints) {
+                double newVar = Math.toRadians(currentAngle); // current index in graph
                 myData.append("sin(" + String.format("%.1f", currentAngle) + ") = ");
                 myData.append(String.format(" %.10f", newVar));
                 double sineRecursionValue = sinRecursion(newVar, numOfTrys);
 
-                dataSeries.getData().add(new XYChart.Data(currentAngle, sineRecursionValue));
+                dataSeries.getData().add(new XYChart.Data(currentAngle, sineRecursionValue)); // Adding points to the Approximation Graph
                 double newVar2 = Math.toRadians(currentAngle);
-                dataSeries2.getData().add(new XYChart.Data(currentAngle, Math.sin(newVar)));
+                dataSeries2.getData().add(new XYChart.Data(currentAngle, Math.sin(newVar))); // Adding points to the Actual Sine Graph
 
                 myData.append(" = " + finalAnswer + "\n");
                 tSeriesSummury.setText(myData.toString());
 
             }
-            if (!appendPlots.isSelected()) {
+            if (!appendPlots.isSelected()) { // Clear all graphs if append plots is selected
                 lineChart.getData().clear();
             }
             lineChart.getData().add(dataSeries);
@@ -83,11 +80,12 @@ public class FinalGraphController implements Initializable {
         }
     }
 
+    // Initializing variables that will be edited in runtime 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tSeriesSummury.setEditable(false);
     }
-
+    // Recursion for the 
     static double sinRecursion(double x, int n) {
         double value = ((Math.pow(-1, n) / factorial((2 * n) + 1))) * Math.pow(x, (2 * n) + 1);
         if (n == 0) {
