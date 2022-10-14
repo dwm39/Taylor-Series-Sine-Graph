@@ -38,40 +38,49 @@ public class FinalGraphController implements Initializable {
 
     @FXML
     void runSimulation(ActionEvent event) {
-        double numOfPoints = 100;
-        myData = new StringBuilder();
         double startPos = Double.parseDouble(fromBox.getText());
         double endPos = Double.parseDouble(toBox.getText());
-        int numOfTrys = Integer.parseInt(numberBox.getText()) - 1;
-        myData = new StringBuilder();
-
-        XYChart.Series dataSeries = new XYChart.Series();
-        dataSeries.setName("Sine Approximation");
-
-        XYChart.Series dataSeries2 = new XYChart.Series();
-        dataSeries2.setName("True Sine");
-
-        for (double currentAngle = startPos; currentAngle <= endPos; currentAngle += (endPos - startPos) / numOfPoints) {
-            double newVar = Math.toRadians(currentAngle);
-            myData.append("sin(" + String.format("%.1f",currentAngle) + ") = ");
-            myData.append(String.format(" %.10f",newVar));
-            double sineRecursionValue = recursionTry3(newVar, numOfTrys);
-            
-            dataSeries.getData().add(new XYChart.Data(currentAngle, sineRecursionValue));
-            double newVar2 = Math.toRadians(currentAngle);
-            dataSeries2.getData().add(new XYChart.Data(currentAngle, Math.sin(newVar)));
-            
-            myData.append(" = " + finalAnswer + "\n");
-            tSeriesSummury.setText(myData.toString());
-            
+        if (startPos >= endPos) {
+            tSeriesSummury.setText("Start Position cannot be greater or equal to end position");
+            throw new InputException("Start Position cannot be greater or equal to end position");
         }
-        if (!appendPlots.isSelected()) {
-            lineChart.getData().clear();
+
+        else {
+
+            double numOfPoints = 100;
+            myData = new StringBuilder();
+            int numOfTrys = Integer.parseInt(numberBox.getText()) - 1;
+            myData = new StringBuilder();
+
+            XYChart.Series dataSeries = new XYChart.Series();
+            dataSeries.setName("Sine Approximation");
+
+            XYChart.Series dataSeries2 = new XYChart.Series();
+            dataSeries2.setName("True Sine");
+
+            for (double currentAngle = startPos; currentAngle <= endPos; currentAngle += (endPos - startPos)
+                    / numOfPoints) {
+                double newVar = Math.toRadians(currentAngle);
+                myData.append("sin(" + String.format("%.1f", currentAngle) + ") = ");
+                myData.append(String.format(" %.10f", newVar));
+                double sineRecursionValue = sinRecursion(newVar, numOfTrys);
+
+                dataSeries.getData().add(new XYChart.Data(currentAngle, sineRecursionValue));
+                double newVar2 = Math.toRadians(currentAngle);
+                dataSeries2.getData().add(new XYChart.Data(currentAngle, Math.sin(newVar)));
+
+                myData.append(" = " + finalAnswer + "\n");
+                tSeriesSummury.setText(myData.toString());
+
+            }
+            if (!appendPlots.isSelected()) {
+                lineChart.getData().clear();
+            }
+            lineChart.getData().add(dataSeries);
+            lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+            lineChart.getData().add(dataSeries2);
+            lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         }
-        lineChart.getData().add(dataSeries);
-        lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
-        lineChart.getData().add(dataSeries2);
-        lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
     }
 
     @Override
@@ -79,7 +88,7 @@ public class FinalGraphController implements Initializable {
         tSeriesSummury.setEditable(false);
     }
 
-    static double recursionTry3(double x, int n) {
+    static double sinRecursion(double x, int n) {
         double value = ((Math.pow(-1, n) / factorial((2 * n) + 1))) * Math.pow(x, (2 * n) + 1);
         if (n == 0) {
             finalAnswer = value;
@@ -92,7 +101,7 @@ public class FinalGraphController implements Initializable {
                 String nValue = String.format(" + %.10f", value);
                 myData.append(nValue);
             }
-            finalAnswer = value + recursionTry3(x, n - 1);
+            finalAnswer = value + sinRecursion(x, n - 1);
             return finalAnswer;
         }
     }
